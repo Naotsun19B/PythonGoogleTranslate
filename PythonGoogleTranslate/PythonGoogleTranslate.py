@@ -1,24 +1,26 @@
 ﻿# -*- coding: utf-8 -*-
+import googletrans
 from googletrans import Translator
 import sys
 import codecs
 
-args= sys.argv
-is_translate_mode = False
+args = sys.argv
 
-print(args)
+if len(args) < 2:
+	sys.exit(1)
+
+mode = args[1];
 
 # t : Translate.
 # args = [script filename] [mode specifier] [input-output filename] [source language code] [dest language code].
-if args[1] == 't':
-	is_translate_mode = True
+if mode == 't':
 	if len(args) < 5:
 		sys.exit(2)
 
 # d : Detect Language.
+# l : Get Language Codes.
 # args = [script filename] [mode specifier] [input-output filename].
-elif args[1] == 'd':
-	is_translate_mode = False
+elif mode == 'd' or mode == 'l':
 	if len(args) < 3:
 		sys.exit(2)
 
@@ -26,23 +28,32 @@ elif args[1] == 'd':
 else:
 	sys.exit(1)
 
-with codecs.open(args[2], 'r', 'utf8', 'ignore') as input:
+filename = args[2]
+with codecs.open(filename, 'r', 'utf8', 'ignore') as input:
 	
 	text = input.read()
 	input.close()
 
-	with codecs.open(args[2], 'w', 'utf8', 'ignore') as output:
+	with codecs.open(filename, 'w', 'utf8', 'ignore') as output:
 
 		translator = Translator()
 
 		# Translate.
-		if is_translate_mode == True: 
-			translated = translator.translate(text, src=args[3], dest=args[4]);
+		if mode == 't': 
+			source = args[3]
+			dest = args[4]
+			translated = translator.translate(text, src=source, dest=dest);
 			output.write(translated.text)
 
 		# Detect Language.
-		else: 
+		elif mode == 'd':
 			detected = translator.detect(text)
 			output.write(detected.lang)
+
+		# Get Language Codes.
+		elif mode == 'l':
+			for language in googletrans.LANGUAGES:	
+				output.write(language)
+				output.write(",\n")
 
 		output.close()
