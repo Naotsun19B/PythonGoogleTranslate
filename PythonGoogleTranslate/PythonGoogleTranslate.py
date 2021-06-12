@@ -17,6 +17,12 @@ if mode == 't':
 	if len(args) < 5:
 		sys.exit(2)
 
+# p : Get Pronunciation.
+# args = [script filename] [mode specifier] [input-output filename] [language code].
+if mode == 'p':
+	if len(args) < 4:
+		sys.exit(2)
+
 # d : Detect Language.
 # l : Get Language Codes.
 # args = [script filename] [mode specifier] [input-output filename].
@@ -44,6 +50,12 @@ with codecs.open(filename, 'r', 'utf8', 'ignore') as input:
 			dest = args[4]
 			translated = translator.translate(text, src=source, dest=dest);
 			output.write(translated.text)
+
+		# Get Pronunciation.
+		elif mode == 'p':
+			lang = args[3]
+			translated = translator.translate(text, src=lang, dest=lang);
+			output.write(translated.pronunciation)
 
 		# Detect Language.
 		elif mode == 'd':
