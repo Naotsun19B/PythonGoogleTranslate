@@ -6,7 +6,9 @@ import codecs
 
 args = sys.argv
 
+# There are not enough arguments.
 if len(args) < 2:
+	print("There are not enough arguments.", file=sys.stderr)
 	sys.exit(1)
 
 mode = args[1];
@@ -15,24 +17,28 @@ mode = args[1];
 # args = [script filename] [mode specifier] [input-output filename] [source language code] [dest language code].
 if mode == 't':
 	if len(args) < 5:
-		sys.exit(2)
+		print("There are not enough arguments.\nargs = [script filename] [mode specifier] [input-output filename] [source language code] [dest language code]", file=sys.stderr)
+		sys.exit(3)
 
 # p : Get Pronunciation.
 # args = [script filename] [mode specifier] [input-output filename] [language code].
-if mode == 'p':
+elif mode == 'p':
 	if len(args) < 4:
-		sys.exit(2)
+		print("There are not enough arguments.\nargs = [script filename] [mode specifier] [input-output filename] [language code]", file=sys.stderr)
+		sys.exit(3)
 
 # d : Detect Language.
 # l : Get Language Codes.
 # args = [script filename] [mode specifier] [input-output filename].
 elif mode == 'd' or mode == 'l':
 	if len(args) < 3:
-		sys.exit(2)
+		print("There are not enough arguments.\nargs = [script filename] [mode specifier] [input-output filename]", file=sys.stderr)
+		sys.exit(3)
 
 # Not a provided mode specifier.
 else:
-	sys.exit(1)
+	print("Not a provided mode specifier.\nFour are supported: t / p / d / l", file=sys.stderr)
+	sys.exit(2)
 
 filename = args[2]
 with codecs.open(filename, 'r', 'utf8', 'ignore') as input:
@@ -54,8 +60,8 @@ with codecs.open(filename, 'r', 'utf8', 'ignore') as input:
 		# Get Pronunciation.
 		elif mode == 'p':
 			lang = args[3]
-			translated = translator.translate(text, src=lang, dest=lang);
-			output.write(translated.pronunciation)
+			pronunciation = translator.translate(text, src=lang, dest=lang);
+			output.write(pronunciation.pronunciation)
 
 		# Detect Language.
 		elif mode == 'd':
