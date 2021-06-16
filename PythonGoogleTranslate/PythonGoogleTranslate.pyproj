@@ -13,7 +13,7 @@
     <RootNamespace>PythonGoogleTranslate</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>t file.txt ja en</CommandLineArguments>
+    <CommandLineArguments>d file.txt ja en</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
