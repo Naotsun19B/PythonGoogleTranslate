@@ -66,13 +66,8 @@ with codecs.open(filename, 'r', 'utf8', 'ignore') as input:
 		elif mode == 'p':
 			lang = args[3]
 			pronunciation = translator.translate(text, src=lang, dest=lang);
-
-			if translated.extra_data["possible-translations"] == None:
-				print("Get pronunciation failed. Please wait for a while and try again.", file=sys.stderr)
-				exit(4)
-			else:
-				output.write(pronunciation.pronunciation)
-
+			output.write(pronunciation.pronunciation)
+				
 		# Detect Language.
 		elif mode == 'd':
 			detected = translator.detect(text)
